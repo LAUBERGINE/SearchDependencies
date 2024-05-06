@@ -1,7 +1,7 @@
 from recursif_dependencies import *
 
 LIB_BASE = "LibPlants.so"
-extension = LIB_BASE.find('dll')
+extension = LIB_BASE.find('.dll')
 all_dependencies = {}
 
 if extension >= 1:
