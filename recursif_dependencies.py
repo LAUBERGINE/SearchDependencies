@@ -12,6 +12,7 @@ def process_dependencies_linux(file_path, all_dependencies):
         else:
             all_dependencies["NA"] = file_path 
 
+# PARTI CISCO
 def process_dependencies_windows(file_path, all_dependencies):
     dependencies = get_dependencies_windows(file_path)
     dependencies_list = list(dependencies)

@@ -15,6 +15,7 @@ def get_dependencies_linux(so_path):
         print("Error:", e)
         return None
 
+# PARTI CISCO
 def get_dependencies_windows(dll_path, seen=None):
     if seen is None:
         seen = set()
