@@ -10,7 +10,7 @@ def process_dependencies_linux(file_path, all_dependencies):
             all_dependencies[result] = file_path 
             process_dependencies_linux(result, all_dependencies)
         else:
-            all_dependencies["NA"] = file_path 
+            all_dependencies[dependency] = file_path 
 
 # PARTIE WINDOWS
 
@@ -23,4 +23,4 @@ def process_dependencies_windows(file_path, all_dependencies):
             all_dependencies[result] = file_path
             process_dependencies_windows(result, all_dependencies)
         else:
-            all_dependencies["NA"] = file_path
+            all_dependencies[dependency] = file_path
