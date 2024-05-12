@@ -11,7 +11,7 @@ if platform.system() == "Windows":
     process_dependencies_windows(ROOT_LIB_BASE, all_dependencies)
 else:
     process_dependencies_linux(ROOT_LIB_BASE, all_dependencies)
-print(all_dependencies)
+
 print(f"Dependencies for {LIB_BASE} :")
 for dependency, file_path in all_dependencies.items():
     print(f"\t{file_path} -> {dependency}")
