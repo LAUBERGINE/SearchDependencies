@@ -18,8 +18,12 @@ def get_dependencies_linux(so_path):
 # PARTIE WINDOWS
 
 def get_dependencies_windows(dll_path):
-    dependencies = set()
-    pe = pefile.PE(dll_path)
-    for entry in pe.DIRECTORY_ENTRY_IMPORT:
-        dependencies.add(entry.dll.decode('utf-8'))
-    return dependencies
+    try:
+        dependencies = set()
+        pe = pefile.PE(dll_path)
+        for entry in pe.DIRECTORY_ENTRY_IMPORT:
+            dependencies.add(entry.dll.decode('utf-8'))
+        return dependencies
+    except Exception as e:
+        print("Error :", e)
+        return None

@@ -2,14 +2,13 @@ from recursif_dependencies import process_dependencies_linux, process_dependenci
 from search_file import get_file
 import platform
 
-LIB_BASE = input("Le DLL ou le SO a chercher : ")
-
-ROOT_LIB_BASE = get_file(LIB_BASE)
 all_dependencies = {}
+
+LIB_BASE = input("Le DLL ou le SO a chercher : ")
+ROOT_LIB_BASE = get_file(LIB_BASE)
 
 if platform.system() == "Windows":
     process_dependencies_windows(ROOT_LIB_BASE, all_dependencies)
-
 else:
     process_dependencies_linux(ROOT_LIB_BASE, all_dependencies)
 
