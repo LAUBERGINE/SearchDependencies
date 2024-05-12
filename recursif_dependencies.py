@@ -12,14 +12,15 @@ def process_dependencies_linux(file_path, all_dependencies):
         else:
             all_dependencies["NA"] = file_path 
 
-# PARTI CISCO
+# PARTIE WINDOWS
+
 def process_dependencies_windows(file_path, all_dependencies):
     dependencies = get_dependencies_windows(file_path)
     dependencies_list = list(dependencies)
     for dependency in dependencies_list:
         result = get_file(dependency)
         if result:
-            all_dependencies[result] = file_path 
+            all_dependencies[result] = file_path
             process_dependencies_windows(result, all_dependencies)
         else:
-            all_dependencies["NA"] = file_path 
+            all_dependencies["NA"] = file_path

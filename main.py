@@ -1,16 +1,19 @@
 from recursif_dependencies import process_dependencies_linux, process_dependencies_windows
 from search_file import get_file
+import platform
 
-LIB_BASE = "LibPlants.so"
+LIB_BASE = "office.dll"
+
+
 ROOT_LIB_BASE = get_file(LIB_BASE)
-extension = LIB_BASE.find('.dll')
 all_dependencies = {}
 
-if extension >= 1:
+if platform.system() == "Windows":
     process_dependencies_windows(ROOT_LIB_BASE, all_dependencies)
+
 else:
     process_dependencies_linux(ROOT_LIB_BASE, all_dependencies)
 
-for file_path, dependency in all_dependencies.items():
-    print(f"{dependency} -> {file_path}")
-
+print(f"Dependencies for {LIB_BASE} :")
+for dependency, file_path in all_dependencies.items():
+    print(f"\t{file_path} -> {dependency}")
