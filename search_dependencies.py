@@ -1,3 +1,4 @@
+
 import ctypes
 import subprocess
 
@@ -15,23 +16,28 @@ def get_dependencies_linux(so_path):
         print("Error:", e)
         return None
 
-# PARTI CISCO
-def get_dependencies_windows(dll_path, seen=None):
-    if seen is None:
-        seen = set()
-    dependencies = set()
+# PARTIE WINDOWS
+import ctypes.wintypes as wintypes
+
+def get_dependencies_windows(dll_path):
+    # Function to get list of modules loaded by a DLL
+    def list_loaded_modules(dll_path):
+        hModule = ctypes.WinDLL(dll_path)
+        hProcess = ctypes.windll.kernel32.GetCurrentProcess()
+        modules = (wintypes.HMODULE * 256)()
+        needed = wintypes.DWORD()
+        ctypes.windll.psapi.EnumProcessModules(hProcess, ctypes.byref(modules), ctypes.sizeof(modules), ctypes.byref(needed))
+        num_modules = needed.value // wintypes.DWORD(ctypes.sizeof(wintypes.HMODULE)).value
+        module_names = set()
+        for i in range(num_modules):
+            baseName = (ctypes.c_char * 1024)()
+            ctypes.windll.psapi.GetModuleBaseNameA(hProcess, modules[i], baseName, 1024)
+            module_names.add(baseName.value.decode('utf-8'))
+        return module_names
+
     try:
-        pe = ctypes.windll.pe.GetModuleHandleW(dll_path)
-        buffer = ctypes.create_unicode_buffer(1024)
-        ctypes.windll.kernel32.GetModuleFileNameW(pe, buffer, ctypes.sizeof(buffer))
-        dependencies.add(buffer.value)
-        for entry in range(0, ctypes.windll.kernel32.DllMain(pe, 0, 0), 0):
-            buffer = ctypes.create_unicode_buffer(1024)
-            ctypes.windll.kernel32.GetModuleFileNameW(entry, buffer, ctypes.sizeof(buffer))
-            dependency = buffer.value
-            if dependency not in seen:
-                seen.add(dependency)
-                dependencies.update(get_dependencies_windows(dependency, seen))
+        return list_loaded_modules(dll_path)
     except Exception as e:
-        print("Error:", e)
-    return dependencies
+        print("Error loading modules from DLL:", e)
+        return set()
+
