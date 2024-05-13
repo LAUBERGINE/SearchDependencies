@@ -1,6 +1,5 @@
 import os
 import platform
-import pefile
 
 def get_file(nom_fichier):
 

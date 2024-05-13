@@ -5,13 +5,17 @@ import platform
 all_dependencies = {}
 
 LIB_BASE = input("Le DLL ou le SO a chercher : ")
-ROOT_LIB_BASE = get_file(LIB_BASE)
+try :
+    ROOT_LIB_BASE = get_file(LIB_BASE)
 
-if platform.system() == "Windows":
-    process_dependencies_windows(ROOT_LIB_BASE, all_dependencies)
-else:
-    process_dependencies_linux(ROOT_LIB_BASE, all_dependencies)
+    if platform.system() == "Windows":
+        process_dependencies_windows(ROOT_LIB_BASE, all_dependencies)
+    else:
+        process_dependencies_linux(ROOT_LIB_BASE, all_dependencies)
 
-print(f"Dependencies for {LIB_BASE} :")
-for dependency, file_path in all_dependencies.items():
-    print(f"\t{file_path} -> {dependency}")
+    print(f"Dependencies for {LIB_BASE} :")
+    for dependency, file_path in all_dependencies.items():
+        print(f"\t{file_path} -> {dependency}")
+
+except Exception as e:
+    print("Error :", e)
